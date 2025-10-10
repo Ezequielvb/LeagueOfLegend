@@ -3,6 +3,7 @@ package com.example.leagueoflegend.ui.theme
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,10 +26,13 @@ import com.example.leagueoflegend.Personaje
 import com.example.leagueoflegend.PersonajesRepo
 
 @Composable
-fun PersonajesLol(personaje: Personaje){
+fun PersonajesLol(personaje: Personaje, onNavigatetoDetails: () -> Unit){
     Row (
+
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth().border(2.dp,Color.Black).padding(10.dp)
+            .clickable(onClick = onNavigatetoDetails, enabled = true)
+
     ) {
 
         Image(
@@ -47,7 +51,8 @@ fun PersonajesLol(personaje: Personaje){
 }
 
 @Composable
-fun LolListaPerso(modifier: Modifier = Modifier){
+fun LolListaPerso(modifier: Modifier = Modifier,
+                  onNavigateToDetail: () ->Unit ){
     val personajes : List<Personaje> = PersonajesRepo.cogerPersonajes()
     LazyColumn(modifier = modifier) {
         items(
@@ -56,7 +61,8 @@ fun LolListaPerso(modifier: Modifier = Modifier){
         ){
                 personaje->
             PersonajesLol(
-                personaje = personaje
+                personaje = personaje,
+                onNavigateToDetail
             )
         }
     }
