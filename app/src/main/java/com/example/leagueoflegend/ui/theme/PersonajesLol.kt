@@ -47,6 +47,7 @@ fun PersonajesLol(personaje: Personaje, onNavigatetoDetails: () -> Unit){
             Text(text = personaje.nombre, style = MaterialTheme.typography.titleMedium)
             Text(text = personaje.descripcion)
         }
+
     }
 }
 
@@ -60,10 +61,13 @@ fun LolListaPerso(modifier: Modifier = Modifier,
             key = {it.nombre}
         ){
                 personaje->
+
             PersonajesLol(
+
                 personaje = personaje,
                 onNavigateToDetail
             )
+
         }
     }
 }
