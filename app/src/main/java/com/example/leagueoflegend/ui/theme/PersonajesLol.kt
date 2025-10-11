@@ -26,12 +26,12 @@ import com.example.leagueoflegend.Personaje
 import com.example.leagueoflegend.PersonajesRepo
 
 @Composable
-fun PersonajesLol(personaje: Personaje, onNavigatetoDetails: () -> Unit){
+fun PersonajesLol(personaje: Personaje, onNavigatetoDetails: (Int) -> Unit){
     Row (
 
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth().border(2.dp,Color.Black).padding(10.dp)
-            .clickable(onClick = onNavigatetoDetails, enabled = true)
+            .clickable(onClick = { onNavigatetoDetails(personaje.id) }, enabled = true)
 
     ) {
 
@@ -53,7 +53,7 @@ fun PersonajesLol(personaje: Personaje, onNavigatetoDetails: () -> Unit){
 
 @Composable
 fun LolListaPerso(modifier: Modifier = Modifier,
-                  onNavigateToDetail: () ->Unit ){
+                  onNavigateToDetail: (Int) ->Unit ){
     val personajes : List<Personaje> = PersonajesRepo.cogerPersonajes()
     LazyColumn(modifier = modifier) {
         items(

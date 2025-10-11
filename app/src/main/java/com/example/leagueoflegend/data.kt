@@ -1,6 +1,7 @@
 package com.example.leagueoflegend
 
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -8,10 +9,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import com.example.leagueoflegend.nav.detail
+import com.example.leagueoflegend.nav.home
 import com.example.leagueoflegend.ui.theme.LolListaPerso
 
 /**
@@ -29,37 +32,45 @@ fun data(){
 @Composable
 fun HomeScreen() {
     val navController = rememberNavController()
-    Scaffold(
-        topBar =
-            {
-                TopAppBar(
-                    title= {
-                        Text(text = "Personajes LOL")
-                    }
-                )
-            }
-    ) {innerPadding ->
 
         NavHost(
             navController = navController,
-            startDestination = "home")
+            startDestination = home
+        )
         {
-            composable("home") {
-                LolListaPerso(modifier = Modifier.padding(innerPadding),
-                    onNavigateToDetail = { navController.navigate("details") })
+            composable<home> {
+                Scaffold(topBar =
+                    {
+
+                        TopAppBar(
+                            title = {
+                                Text(text = "Personajes LOL")
+                            }
+                        )
+
+                    }) { innerPadding ->
+
+                    LolListaPerso(
+                        modifier = Modifier.padding(innerPadding),
+                        onNavigateToDetail = { id -> navController.navigate(detail(id = id)) })
+                }
+            }
+            composable <detail> {backStackEntry ->
+                val id:detail = backStackEntry.toRoute()
+                DetailsScreen(modifier = Modifier,id = id)
 
             }
-            composable("details") { DetailsScreen(modifier = Modifier.consumeWindowInsets
-                (innerPadding).padding(innerPadding),navController, id) }
         }
 
 
     }
 
-}
+
 @Composable
-fun DetailsScreen(modifier: Modifier = Modifier, navController: NavController, id: Int,) {
-        ScreenDetails(modifier = modifier )
+fun DetailsScreen(modifier: Modifier, id: detail) {
+    Scaffold { innerPadding ->
+        ScreenDetails(modifier = modifier.padding(innerPadding), id = id)
+    }
 
 }
 
